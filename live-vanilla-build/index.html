@@ -5,26 +5,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/index.css" />
+    <script
+      src="https://kit.fontawesome.com/a73fbee265.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Vanilla JS Tic Tac Toe</title>
   </head>
   <body>
     <main>
-        <div class="grid">
-            <div class="turn"></div>
-            <div class="actions"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="score"></div>
-            <div class="score"></div>
-            <div class="score"></div>
+      <div class="grid">
+        <div class="turn">
+          <i class="fa-solid fa-x"></i>
+          <p>Player 1, you're up!</p>
         </div>
-    </main>>
+
+        <div class="actions">
+          <button class="menu-btn" data-id="menu-button">
+            Actions <i class="fa-solid fa-chevron-down"></i>
+          </button>
+
+          <div class="items border hidden" data-id="menu-popover">
+            <button data-id="reset-btn">Reset</button>
+            <button data-id="new-round-btn">New Round</button>
+          </div>
+        </div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="score"></div>
+        <div class="score"></div>
+        <div class="score"></div>
+      </div>
+    </main>
+    <footer>
+      <p>
+        Original project by
+        <a href="https://twitter.com/megfdev">@megfdev</a> and
+        <a href="https://twitter.com/Ivan00sto">@Ivan00Sto</a>
+      </p>
+
+      <p>
+        Refactored by
+        <a href="https://twitter.com/zg_dev" style="color: var(--turquoise)"
+          >@zg_dev</a
+        >
+      </p>
+    </footer>
   </body>
 </html>

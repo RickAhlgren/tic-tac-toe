@@ -23,6 +23,15 @@ body {
   background-color: var(--dark-gray);
 }
 
+body {
+  padding: 90px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mobile grid styles */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 80px);
@@ -30,10 +39,63 @@ body {
   gap: 5px;
 }
 
+/* Desktop grid styles */
+@media (min-width: 768px) {
+  .grid {
+    width: 490px;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: 50px repeat(3, 150px) 60px;
+    gap: 20px;
+  }
+}
+
+/* Game controls */
+
 .turn {
-  background-color: green;
+  color: var(--yellow);
   grid-column-start: 1;
   grid-column-end: 3;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* @keyframes identifies and determines what happens at each % duration of the animation */
+/* These keyframes cause the turn text to slide from left to right and increase opacity from invisible to solid */
+@keyframes turn-text-animation {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+}
+
+.turn p {
+  font-size: 14px;
+  animation: 0.6s ease-in-out turn-text-animation;
+}
+
+/* @keyframes identifies and determines what happens at each % duration of the animation */
+@keyframes turn-icon-animation {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.turn i {
+  font-size: 1.8rem;
+  margin-left: 10px;
+  animation: 0.6s ease-in-out turn-icon-animation;
 }
 
 .square {
@@ -46,4 +108,22 @@ body {
 
 .actions {
   background-color: purple;
+}
+
+/* Responsive styles */
+
+/* footer styles */
+
+footer {
+  color: white;
+  margin-top: 50px;
+}
+
+footer p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+footer a {
+  color: var(--yellow);
 }
