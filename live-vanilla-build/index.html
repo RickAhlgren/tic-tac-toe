@@ -15,8 +15,8 @@
     <main>
       <div class="grid">
         <!-- Turn display -->
-        <div class="turn">
-          <i class="fa-solid fa-x turquoise"></i>
+        <div class="turn yellow" data-id="turn">
+          <i class="fa-solid fa-x"></i>
           <p>Player 1, you're up!</p>
         </div>
         <!-- Action drop down menu -->
@@ -73,10 +73,10 @@
     </footer>
 
     <!-- Modal that opens when game ends -->
-    <div class="modal hidden">
-      <div class="modal-contents">
-        <p>Player 1 wins!</p>
-        <button>Play again</button>
+    <div class="modal hidden" data-id="modal">
+      <div class="modal-contents" data-id="modal-contents">
+        <p data-id="modal-text">Player 1 wins!</p>
+        <button data-id="modal-btn">Play again</button>
       </div>
     </div>
 

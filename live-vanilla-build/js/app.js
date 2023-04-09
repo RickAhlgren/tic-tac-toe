@@ -8,6 +8,10 @@ const App = {
     resetBtn: document.querySelector('[data-id="reset-btn"]'),
     newRoundBtn: document.querySelector('[data-id="new-round-btn"]'),
     squares: document.querySelectorAll('[data-id="square"]'),
+    modal: document.querySelector('[data-id="modal"]'),
+    modalText: document.querySelector('[data-id="modal-text"]'),
+    modalBtn: document.querySelector('[data-id="modal-btn"]'),
+    turn: document.querySelector('[data-id="turn"]'),
   },
 
   state: {
@@ -24,7 +28,7 @@ const App = {
 
     console.log(p1Moves);
 
-    // Check if there is a winner or tie
+    // The list of victory conditions
     const winningPatterns = [
       [1, 2, 3],
       [1, 5, 9],
@@ -72,9 +76,16 @@ const App = {
       console.log("Start a new round");
     });
 
-    // This event listener checks if a square has a play or not before 
-    // inserting the current player's play, then it adds the play to 
-    // that player's list (array) of plays, and then it checks to see 
+    // TODO
+    App.$.modalBtn.addEventListener("click", (event) => {
+      App.state.moves = [];
+      App.$.squares.forEach((square) => square.replaceChildren());
+      App.$.modal.classList.add("hidden");
+    });
+
+    // This event listener checks if a square has a play or not before
+    // inserting the current player's play, then it adds the play to
+    // that player's list (array) of plays, and then it checks to see
     // if that play resulted in a tie or victory for the current player
     App.$.squares.forEach((square) => {
       square.addEventListener("click", (event) => {
@@ -86,6 +97,9 @@ const App = {
           return existingMove !== undefined;
         };
 
+        // If the current square has a play already, the function
+        // returns early, preventing the move from completing and
+        // retaining the current player's turn
         if (hasMove(+square.id)) {
           return;
         }
@@ -97,15 +111,28 @@ const App = {
           App.state.moves.length === 0
             ? 1
             : getOppositePlayer(lastMove.playerId);
+        const nextPlayer = getOppositePlayer(currentPlayer);
 
-        const icon = document.createElement("i");
+        const squareIcon = document.createElement("i");
+        const turnIcon = document.createElement("i");
+        const turnLabel = document.createElement("p");
+        turnLabel.innerText = `Player ${nextPlayer}, you are up!`;
 
+        // Create an icon to represent the current player's move
         if (currentPlayer === 1) {
-          icon.classList.add("fa-solid", "fa-x", "yellow");
+          squareIcon.classList.add("fa-solid", "fa-x", "yellow");
+          turnIcon.classList.add("fa-solid", "fa-o", "turquoise");
+          turnLabel.classList = "turquoise";
         } else {
-          icon.classList.add("fa-solid", "fa-o", "turquoise");
+          squareIcon.classList.add("fa-solid", "fa-o", "turquoise");
+          turnIcon.classList.add("fa-solid", "fa-x", "yellow");
+          turnLabel.classList = "yellow";
         }
 
+        App.$.turn.replaceChildren(turnIcon, turnLabel);
+
+        // Add the move to the list of moves for the current player,
+        // to verify against victory conditions
         App.state.moves.push({
           squareId: +square.id,
           playerId: currentPlayer,
@@ -113,17 +140,22 @@ const App = {
 
         console.log(App.state);
 
-        square.replaceChildren(icon);
+        // Add icon to square
+        square.replaceChildren(squareIcon);
 
-        // Check if there is a winner or tie
+        // Check if there is a winner or tie based on recent move
         const game = App.getGameStatus(App.state.moves);
 
+        let message = "";
         if (game.status === "complete") {
           if (game.winner) {
-            alert(`Player ${game.winner} wins!`);
+            message = `Player ${game.winner} wins!`;
+            App.$.modal.classList.remove("hidden");
           } else {
-            alert("Tie!");
+            message = "Tie game!";
           }
+
+          App.$.modalText.textContent = message;
         }
       });
     });
