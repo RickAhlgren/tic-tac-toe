@@ -31,6 +31,33 @@ body {
   align-items: center;
 }
 
+/* Shared utility classes */
+.button:hover {
+  cursor: pointer;
+  opacity: 90%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.yellow {
+  color: var(--yellow);
+}
+
+.turquoise {
+  color: var(--turquoise);
+}
+
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.border {
+  border: 1px solid rgba(211, 211, 211, 0.4) !important;
+}
+
 /* Mobile grid styles */
 .grid {
   display: grid;
@@ -50,7 +77,6 @@ body {
 }
 
 /* Game controls */
-
 .turn {
   color: var(--yellow);
   grid-column-start: 1;
@@ -98,22 +124,80 @@ body {
   animation: 0.6s ease-in-out turn-icon-animation;
 }
 
+/* Menu styles */
+.menu {
+  position: relative;
+}
+
+.menu-btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  background-color: rgba(211, 211, 211, 0.5);
+  border: 1px solid transparent;
+}
+
+.items {
+  position: absolute;
+  z-index: 10;
+  top: 60px;
+  right: 0;
+  background-color: #203139;
+  border-radius: 2px;
+  padding: 10px;
+}
+
+.items button {
+  background-color: transparent;
+  padding: 8px;
+  color: white;
+}
+
+.items button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .square {
-  background-color: red;
+  background-color: var(--gray);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.square:hover {
+  cursor: pointer;
+  opacity: 90%;
 }
 
 .score {
-  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.score p {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.score span {
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 .actions {
-  background-color: purple;
 }
 
-/* Responsive styles */
-
-/* footer styles */
-
+/* Footer styles */
 footer {
   color: white;
   margin-top: 50px;
@@ -126,4 +210,41 @@ footer p {
 
 footer a {
   color: var(--yellow);
+}
+
+/* Modal styles - opens when game finishes */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-contents {
+  /* transform: translateY(-80px); */
+  /* this section sets the dimensions of the modal */
+  height: 150px;
+  width: 100%;
+  max-width: 300px;
+  background-color: #2a4544;
+  border-radius: 20px;
+  /* this section centers the text in the modal */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* creates spacing between the text elements of the modal */
+  color: white; /* sets the color of Player 1 Wins */
+  margin: 10px; /* creates a gap between the modal and the edges of the screen (for mobile) */
+}
+
+.modal-contents button {
+  padding: 10px;
+  background-color: var(--turquoise);
+  color: #2a4544;
+  border-radius: 3px;
 }
