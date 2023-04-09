@@ -1,4 +1,4 @@
-// RESUME VIDEO AT 2:42:11
+import View from "./view.js";
 
 const App = {
   // All of our selected HTML elements
@@ -162,4 +162,27 @@ const App = {
   },
 };
 
-window.addEventListener("load", App.init);
+// window.addEventListener("load", App.init);
+
+function init() {
+  const view = new View();
+
+  view.bindGameResetEvent((event) => {
+    console.log("Reset event");
+    console.log(event);
+  });
+
+  view.bindNewRoundEvent((event) => {
+    console.log("New round event");
+    console.log(event);
+  });
+
+  view.bindPlayerMoveEvent((event) => {
+    console.log("Player move event");
+    console.log(event);
+  });
+
+  console.log(view.$.turn);
+}
+
+window.addEventListener("load", init);
