@@ -182,8 +182,6 @@ function init() {
   const view = new View();
   const store = new Store(players);
 
-  console.log(store.game);
-
   view.bindGameResetEvent((event) => {
     console.log("Reset event");
     console.log(event);
@@ -194,12 +192,31 @@ function init() {
     console.log(event);
   });
 
-  view.bindPlayerMoveEvent((event) => {
-    const clickedSquare = event.target;
+  view.bindPlayerMoveEvent((square) => {
+    // create variable to check if square has a move in it already
+    const existingMove = store.game.moves.find(
+      (move) => move.squareId === +square.id
+    );
 
-    view.handlePlayerMove(clickedSquare, game.state.currentPlayer);
+    // if the square already has a move in it, then return early
+    if (existingMove) {
+      return;
+    }
 
-    view.setTurnIndicator(players[1]);
+    // Place an icon of the current player in a square
+    view.handlePlayerMove(square, store.game.currentPlayer);
+
+    // Advance to the next state by pushing a move to moves array
+    // Sends id of clicked square to Store to track player move
+    // clickedSquare.id will come through as a string by default,
+    // so (+) transforms the value from a string to a number
+    store.playerMove(+square.id);
+
+    // Set the next player's turn indicator
+    // This store.game.currentPlayer is different than the one above,
+    // because we sent the player move data to Store and updated the state
+    // with store.playerMove() to let the players know it's the next player's turn
+    view.setTurnIndicator(store.game.currentPlayer);
   });
 }
 

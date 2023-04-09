@@ -17,7 +17,6 @@ export default class View {
     this.$$.squares = this.#qsAll('[data-id="square"]');
 
     // UI-only event listeners
-    console.log(this.$.menu);
     this.$.menuBtn.addEventListener("click", (event) => {
       this.#toggleMenu();
     });
@@ -35,7 +34,7 @@ export default class View {
 
   bindPlayerMoveEvent(handler) {
     this.$$.squares.forEach((square) => {
-      square.addEventListener("click", handler);
+      square.addEventListener("click", () => handler(square));
     });
   }
 
