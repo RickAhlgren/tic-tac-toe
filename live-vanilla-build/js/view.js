@@ -19,7 +19,7 @@ export default class View {
     // UI-only event listeners
     console.log(this.$.menu);
     this.$.menuBtn.addEventListener("click", (event) => {
-      this.toggleMenu();
+      this.#toggleMenu();
     });
   }
 
@@ -41,7 +41,7 @@ export default class View {
 
   // DOM helper methods
   // the hashtag prevents the qs() method from being selected outside of view.js
-  toggleMenu() {
+  #toggleMenu() {
     this.$.menuItems.classList.toggle("hidden");
     this.$.menuBtn.classList.toggle("border");
 
@@ -49,6 +49,27 @@ export default class View {
 
     icon.classList.toggle("fa-chevron-down");
     icon.classList.toggle("fa-chevron-up");
+  }
+
+  // handle player moves
+  handlePlayerMove(squareEl, player) {
+    const icon = document.createElement("i");
+    icon.classList.add("fa-solid", player.iconClass, player.colorClass);
+    squareEl.replaceChildren(icon);
+  }
+
+  // player = 1 | 2
+  setTurnIndicator(player) {
+    const icon = document.createElement("i");
+    const label = document.createElement("p");
+
+    icon.classList.add("fa-solid", player.colorClass, player.iconClass);
+
+    label.classList.add(player.colorClass);
+
+    label.innerText = `${player.name}, you're up!`;
+
+    this.$.turn.replaceChildren(icon, label);
   }
 
   // replace querySelector with custom method
@@ -70,22 +91,4 @@ export default class View {
 
     return eList;
   }
-
-  // player = 1 | 2
-  setTurnIndicator(player) {
-    const icon = document.createElement("i");
-    const label = document.createElement("p");
-
-    this.$.turn.classList.add(player === 1 ? "yellow" : "turquoise");
-    this.$.turn.classList.remove(player === 1 ? "turquoise" : "yellow");
-
-    icon.classList.add(player === 1 ? "fa-x" : "fa-o");
-    label.innerText =
-      player === 1 ? "Player 1, you're up!" : "Player 2, you're up!";
-
-    this.$.turn.replaceChildren(icon, label);
-  }
-
 }
-
-// RESUME AT 3:35:15
