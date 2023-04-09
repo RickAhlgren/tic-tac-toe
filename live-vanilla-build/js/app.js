@@ -180,7 +180,7 @@ const players = [
 
 function init() {
   const view = new View();
-  const store = new Store();
+  const store = new Store(players);
 
   console.log(store.game);
 
@@ -195,8 +195,11 @@ function init() {
   });
 
   view.bindPlayerMoveEvent((event) => {
+    const clickedSquare = event.target;
+
+    view.handlePlayerMove(clickedSquare, game.state.currentPlayer);
+
     view.setTurnIndicator(players[1]);
-    view.handlePlayerMove(event.target, players[1]);
   });
 }
 
