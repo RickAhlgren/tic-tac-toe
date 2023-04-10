@@ -26,6 +26,7 @@ export default class View {
 
   bindGameResetEvent(handler) {
     this.$.resetBtn.addEventListener("click", handler);
+    this.$.modalBtn.addEventListener("click", handler);
   }
 
   bindNewRoundEvent(handler) {
@@ -39,6 +40,21 @@ export default class View {
   }
 
   // DOM helper methods
+  openModal(message) {
+    this.$.modal.classList.remove("hidden");
+    this.$.modalText.innerText = message;
+  }
+
+  closeModal() {
+    this.$.modal.classList.add("hidden");
+  }
+
+  clearMoves() {
+    this.$$.squares.forEach((square) => {
+      square.replaceChildren();
+    });
+  }
+
   // the hashtag prevents the qs() method from being selected outside of view.js
   #toggleMenu() {
     this.$.menuItems.classList.toggle("hidden");

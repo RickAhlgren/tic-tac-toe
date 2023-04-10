@@ -81,7 +81,7 @@ body {
   grid-column-start: 1;
   grid-column-end: 3;
   align-self: center;
-  
+
   display: flex;
   align-items: center;
   gap: 20px;
@@ -252,4 +252,5 @@ footer a {
   background-color: var(--turquoise);
   color: #2a4544;
   border-radius: 3px;
+  cursor: pointer;
 }

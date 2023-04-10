@@ -183,8 +183,14 @@ function init() {
   const store = new Store(players);
 
   view.bindGameResetEvent((event) => {
-    console.log("Reset event");
-    console.log(event);
+    view.closeModal();
+
+    // This resets the state to the initial state
+    store.reset();
+
+    // This clears the gameboard and resets the current player to Player 1
+    view.clearMoves();
+    view.setTurnIndicator(store.game.currentPlayer);
   });
 
   view.bindNewRoundEvent((event) => {
@@ -211,6 +217,17 @@ function init() {
     // clickedSquare.id will come through as a string by default,
     // so (+) transforms the value from a string to a number
     store.playerMove(+square.id);
+
+    //
+    if (store.game.status.isComplete) {
+      view.openModal(
+        store.game.status.winner
+          ? `${store.game.status.winner.name} wins!`
+          : "Tie!"
+      );
+
+      return;
+    }
 
     // Set the next player's turn indicator
     // This store.game.currentPlayer is different than the one above,
