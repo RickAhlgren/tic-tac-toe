@@ -45,14 +45,29 @@ export default class View {
     this.$.modalText.innerText = message;
   }
 
-  closeModal() {
+  #closeModal() {
     this.$.modal.classList.add("hidden");
+  }
+
+  closeAll() {
+    this.#closeModal();
+    this.#closeMenu();
   }
 
   clearMoves() {
     this.$$.squares.forEach((square) => {
       square.replaceChildren();
     });
+  }
+
+  #closeMenu() {
+    this.$.menuItems.classList.add("hidden");
+    this.$.menuBtn.classList.remove("border");
+
+    const icon = this.$.menuBtn.querySelector("i");
+
+    icon.classList.remove("fa-chevron-up");
+    icon.classList.add("fa-chevron-down");
   }
 
   // the hashtag prevents the qs() method from being selected outside of view.js

@@ -183,7 +183,7 @@ function init() {
   const store = new Store(players);
 
   view.bindGameResetEvent((event) => {
-    view.closeModal();
+    view.closeAll();
 
     // This resets the state to the initial state
     store.reset();
