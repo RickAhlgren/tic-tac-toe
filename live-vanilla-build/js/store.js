@@ -119,6 +119,18 @@ export default class Store {
     this.#saveState(stateClone);
   }
 
+  // Clear out currentGameMoves and history
+  newRound() {
+    this.reset();
+
+    const stateClone = structuredClone(this.#getState());
+    console.log(stateClone);
+    stateClone.history.allGames.push(...stateClone.history.currentRoundGames);
+    stateClone.history.currentRoundGames = [];
+
+    this.#saveState(stateClone);
+  }
+
   // Retrieve the current state
   #getState() {
     return this.#state;

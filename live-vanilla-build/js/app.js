@@ -208,9 +208,18 @@ function init() {
     );
   });
 
+  // Functionality for the New Round button.
   view.bindNewRoundEvent((event) => {
-    console.log("New round event");
-    console.log(event);
+    store.newRound();
+
+    view.closeAll();
+    view.clearMoves();
+    view.setTurnIndicator(store.game.currentPlayer);
+    view.updateScoreBoard(
+      store.stats.playerWithStats[0].wins,
+      store.stats.playerWithStats[1].wins,
+      store.stats.ties
+    );
   });
 
   view.bindPlayerMoveEvent((square) => {
@@ -254,4 +263,4 @@ function init() {
 
 window.addEventListener("load", init);
 
-// RESUME @ 4:52:00
+// RESUME @ 5:03:00
