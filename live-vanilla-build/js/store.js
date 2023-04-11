@@ -13,6 +13,31 @@ export default class Store {
     this.players = players;
   }
 
+  get stats() {
+    const state = this.#getState();
+
+    return {
+      // Check the current player against the status of the current game
+      // then get the length of that array to determine number of wins for
+      // the current player
+      playerWithStats: this.players.map((player) => {
+        const wins = state.history.currentRoundGames.filter(
+          (game) => game.status.winner?.id === player.id
+        ).length;
+
+        return {
+          ...player,
+          wins,
+        };
+      }),
+      // Check the current game if there is a tie
+      ties: state.history.currentRoundGames.filter(
+        (game) => game.status.winner === null
+      ).length,
+    };
+  }
+
+  // Retrieve the current state of the game
   get game() {
     const state = this.#getState();
 
@@ -33,11 +58,15 @@ export default class Store {
 
     let winner = null;
 
+    // Loop through the current player's move set and determine if
+    // the current player has a winning configuration
     for (const player of this.players) {
       const selectedSquareIds = state.currentGameMoves
         .filter((move) => move.player.id === player.id)
         .map((move) => move.squareId);
 
+      // Compare the current player's moves with the winning
+      // movesets to see if the current player is a winner
       for (const pattern of winningPatterns) {
         if (pattern.every((v) => selectedSquareIds.includes(v))) {
           winner = player;
@@ -45,6 +74,8 @@ export default class Store {
       }
     }
 
+    // Return the current state of the game board and whether
+    // the game is complete or not
     return {
       moves: state.currentGameMoves,
       currentPlayer,
