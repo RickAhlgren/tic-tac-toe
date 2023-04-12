@@ -119,7 +119,7 @@ export default class Store {
     this.#saveState(stateClone);
   }
 
-  // Clear out currentGameMoves and history
+  // Clear out currentGameMoves and history, then save the state 
   newRound() {
     this.reset();
 

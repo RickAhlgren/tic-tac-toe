@@ -20,21 +20,12 @@ function init() {
   const view = new View();
   const store = new Store("live-t3-storage-key", players);
 
-  view.bindGameResetEvent((event) => {
+  function initView() {
     view.closeAll();
-
-    // This resets the state to the initial state
-    store.reset();
 
     // This clears the gameboard and resets the current player to Player 1
     view.clearMoves();
     view.setTurnIndicator(store.game.currentPlayer);
-
-    view.updateScoreBoard(
-      store.stats.playerWithStats[0].wins,
-      store.stats.playerWithStats[1],
-      store.stats.ties
-    );
 
     // Update the score board by checking the player stats at the end of
     // a round. If a player doesn't have any wins, return a zero. Same
@@ -44,20 +35,21 @@ function init() {
       store.stats.playerWithStats[1].wins,
       store.stats.ties
     );
+  }
+
+  // Call the initView function immediately to load the correct state
+  initView();
+
+  view.bindGameResetEvent((event) => {
+    // This resets the state to the initial state
+    store.reset();
+    initView();
   });
 
   // Functionality for the New Round button.
   view.bindNewRoundEvent((event) => {
     store.newRound();
-
-    view.closeAll();
-    view.clearMoves();
-    view.setTurnIndicator(store.game.currentPlayer);
-    view.updateScoreBoard(
-      store.stats.playerWithStats[0].wins,
-      store.stats.playerWithStats[1].wins,
-      store.stats.ties
-    );
+    initView();
   });
 
   view.bindPlayerMoveEvent((square) => {
@@ -100,5 +92,3 @@ function init() {
 }
 
 window.addEventListener("load", init);
-
-// RESUME @ 5:03:00
