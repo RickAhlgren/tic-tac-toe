@@ -6,10 +6,10 @@ const initialValue = {
   },
 };
 
-export default class Store {
+export default class Store extends EventTarget {
   constructor(key, players) {
+    super();
     this.storageKey = key;
-
     this.players = players;
   }
 
@@ -119,7 +119,7 @@ export default class Store {
     this.#saveState(stateClone);
   }
 
-  // Clear out currentGameMoves and history, then save the state 
+  // Clear out currentGameMoves and history, then save the state
   newRound() {
     this.reset();
 
@@ -160,5 +160,8 @@ export default class Store {
     }
 
     window.localStorage.setItem(this.storageKey, JSON.stringify(newState));
+    // Create event called "statechange" that the Event Listener in app.js
+    // is listening for
+    this.dispatchEvent(new Event("statechange"));
   }
 }

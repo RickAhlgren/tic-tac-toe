@@ -25,6 +25,36 @@ export default class View {
     });
   }
 
+  render(game, stats) {
+    const { playerWithStats, ties } = stats;
+    const {
+      moves,
+      currentPlayer,
+      status: { isComplete, winner },
+    } = game;
+
+    this.#closeAll();
+    this.#clearMoves();
+    this.#setTurnIndicator(currentPlayer);
+
+    this.#updateScoreBoard(
+      playerWithStats[0].wins,
+      playerWithStats[1].wins,
+      ties
+    );
+    this.#initializeMoves(moves);
+
+    if (isComplete) {
+      this.#openModal(
+        winner ? `${winner.name} wins!` : "Tie!"
+      );
+
+      return;
+    }
+
+    this.#setTurnIndicator(currentPlayer);
+  }
+
   // Register all the event listeners
 
   bindGameResetEvent(handler) {
@@ -43,13 +73,15 @@ export default class View {
   }
 
   // DOM helper methods
-  updateScoreBoard(p1Wins, p2Wins, ties) {
+  // Update score board by passing it the number of wins for each player
+  // and the number of ties
+  #updateScoreBoard(p1Wins, p2Wins, ties) {
     this.$.p1Wins.innerText = `${p1Wins} wins`;
     this.$.p2Wins.innerText = `${p2Wins} wins`;
     this.$.ties.innerText = `${ties} ties`;
   }
 
-  openModal(message) {
+  #openModal(message) {
     this.$.modal.classList.remove("hidden");
     this.$.modalText.innerText = message;
   }
@@ -58,23 +90,39 @@ export default class View {
     this.$.modal.classList.add("hidden");
   }
 
-  closeAll() {
+  #closeAll() {
     this.#closeModal();
     this.#closeMenu();
   }
 
-  clearMoves() {
+  #clearMoves() {
     this.$$.squares.forEach((square) => {
       square.replaceChildren();
     });
   }
 
+  #initializeMoves(moves) {
+    // Loop through the squares and check if each square has an existing move
+    this.$$.squares.forEach((square) => {
+      const existingMove = moves.find((move) => move.squareId === +square.id);
+
+      // If a square has an existing move, call the handlePlayerMove function
+      // to place the correct move in the current square
+      if (existingMove) {
+        this.#handlePlayerMove(square, existingMove.player);
+      }
+    });
+  }
+
+  // Close the drop down menu by adding the .hidden class and removing the .border class
   #closeMenu() {
     this.$.menuItems.classList.add("hidden");
     this.$.menuBtn.classList.remove("border");
 
+    // Create a variable to find the chevron
     const icon = this.$.menuBtn.querySelector("i");
 
+    // Replace the up-facing chevron with a down-facing chevron
     icon.classList.remove("fa-chevron-up");
     icon.classList.add("fa-chevron-down");
   }
@@ -91,14 +139,14 @@ export default class View {
   }
 
   // handle player moves
-  handlePlayerMove(squareEl, player) {
+  #handlePlayerMove(squareEl, player) {
     const icon = document.createElement("i");
     icon.classList.add("fa-solid", player.iconClass, player.colorClass);
     squareEl.replaceChildren(icon);
   }
 
   // player = 1 | 2
-  setTurnIndicator(player) {
+  #setTurnIndicator(player) {
     const icon = document.createElement("i");
     const label = document.createElement("p");
 
