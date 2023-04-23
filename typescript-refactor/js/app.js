@@ -33,6 +33,7 @@ function init() {
     view.render(store.game, store.stats);
   });
 
+  // The first load of the document
   view.render(store.game, store.stats);
 
   view.bindGameResetEvent((event) => {
